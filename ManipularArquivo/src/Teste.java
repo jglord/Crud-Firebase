@@ -15,12 +15,11 @@ public class Teste {
 		
 		int  matriz [][] = new int[SIZE][SIZE];
 		
-		// Preenchendo a matriz com valores aleatorios
+		// Preenchendo a matriz com valores aleatorios entre 0 e 9
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
 				 matriz[i][j] = random.nextInt(9);
 			}
-			
 		}
 		
 		
