@@ -35,12 +35,6 @@ public class Teste {
 			gravar.print("|");
 			gravar.print("\n");
 		}
-				
-		
-		
-		
-		
-		
 	    
 		gravar.close();		
 	}
