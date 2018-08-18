@@ -1,4 +1,8 @@
 
+
+
+
+/*
 var msg = new Vue({
     el: '#app',
     data: {
@@ -42,3 +46,4 @@ var app6 = new Vue({
         }
     }
 })
+*/
