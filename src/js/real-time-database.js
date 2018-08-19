@@ -4,6 +4,7 @@ var usersList = document.getElementById('usersList');
 var nameInput = document.getElementById('nameInput');
 var ageInput = document.getElementById('ageInput');
 var addButton = document.getElementById('addButton');
+var deleteAllUsersButton = document.getElementById('deleteAllUsersButton')
 
 var db = firebase.database();
 
@@ -21,6 +22,16 @@ addButton.addEventListener('click', () => {
         alert("Campo IDADE vazio.")
     }
 });
+
+deleteAllUsersButton.addEventListener('click', () => {
+    if( confirm('Certeza que você quer deletar todos os usuários?') ) {
+        return db.ref().child('users').update(null);
+        alert('Todos os usuários foram deletados!!');
+        listUsers();
+    }
+    
+});
+
 
 function create(name, age) {
 
@@ -71,13 +82,13 @@ function listUsers() {
             deleteButton.setAttribute('type', 'button');
             deleteButton.classList = 'btn btn-danger';
             deleteButton.addEventListener('click', () => {
-                if( confirm(`Deseja mesmo deletar ${data.name}?`) ) {
+                //if( confirm(`Deseja mesmo deletar ${data.name}?`) ) {
                     deleteUser(userKey);
                     listUsers();
-                }
-                else {
-                    alert('else');
-                }
+                //}
+                //else {
+                    //alert('else');
+                //}
             });
 
             let tdDeleteButton = document.createElement('td');
