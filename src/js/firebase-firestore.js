@@ -1,4 +1,4 @@
-//var firebase = require('firebase');
+var firebase = require('firebase');
 
 var usersList = document.getElementById('usersList');
 var nameInput = document.getElementById('nameInput');
@@ -32,21 +32,68 @@ function create(name, age) {
     return db.collection('users').add(data);
 }
 
+function deleteUser(userId) { 
+    db.collection('users').doc(`${userId}`).delete();
+}
+
+
 function listUsers() {
     db.collection('users').get().then( (Snapshot) => {
 
         Snapshot.forEach( (user) => {
-            var li = document.createElement('li');
+            const data = user.data();
+            const userId = user.id;
+            
 
-            var pName = document.createElement('p');
-            pName.appendChild(document.createTextNode(`Name: ${user.data().name}`));
-            li.appendChild(pName);
+            let trUser = document.createElement('tr');
+            trUser.classList = 'table-active';
 
-            var pAge = document.createElement('p');
-            pAge.appendChild(document.createTextNode(`Age: ${user.data().age}`)); 
-            li.appendChild(pAge);
+            let tdName = document.createElement('td');
+            tdName.appendChild(document.createTextNode(`${data.name}`));
+            trUser.appendChild(tdName);
 
-            usersList.appendChild(li);
+            let tdAge = document.createElement('td');
+            tdAge.appendChild(document.createTextNode(`${data.age}`));
+            trUser.appendChild(tdAge);
+
+            let editButton = document.createElement('button');
+            editButton.appendChild(document.createTextNode('EDIT'));
+            editButton.setAttribute('type', 'button');
+            editButton.setAttribute('data-toggle', 'modal');
+            editButton.setAttribute('data-target', '#modalEditUser')
+            editButton.classList = 'btn btn-primary';
+            editButton.addEventListener('click', () => {
+
+                editUserModal.appendChild(document.createTextNode(`Editando ${data.name}`));
+
+                saveButton.addEventListener('click', () => {
+                    updateUser(nameEditInput.value, ageEditInput.value, userId);
+                });
+            });
+
+            let tdEditButton = document.createElement('td');
+            tdEditButton.appendChild(editButton);
+            trUser.appendChild(tdEditButton);
+
+            let deleteButton = document.createElement('button');
+            deleteButton.appendChild(document.createTextNode('DELETE'));
+            deleteButton.setAttribute('type', 'button');
+            deleteButton.classList = 'btn btn-danger';
+            deleteButton.addEventListener('click', () => {
+                //if( confirm(`Deseja mesmo deletar ${data.name}?`) ) {
+                deleteUser(userId);
+                listUsers();
+                //}
+                //else {
+                //alert('else');
+                //}
+            });
+
+            let tdDeleteButton = document.createElement('td');
+            tdDeleteButton.appendChild(deleteButton);
+            trUser.appendChild(tdDeleteButton);
+
+            usersList.appendChild(trUser);
         });
 
     });
