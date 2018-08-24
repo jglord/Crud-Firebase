@@ -6,28 +6,33 @@ var passwordInput = document.getElementById('passwordInput');
 var emailCreateInput = document.getElementById('emailCreateInput');
 var passwordCreateInput = document.getElementById('passwordCreateInput');
 
+var displayName = document.getElementById('displayName');
+
 var authEmailPassButton = document.getElementById('authEmailPassButton');
-var createAccountButton = document.getElementById('createAccountButton');
-
-var logoutButton = document.getElementById('logoutButton');
-
 authEmailPassButton.addEventListener('click', () => {
     signInAuth(emailInput.value, passwordInput.value);
 });
 
+var createAccountButton = document.getElementById('createAccountButton');
 createAccountButton.addEventListener('click', () => {
     createAuth(emailCreateInput.value, passwordCreateInput.value);
 });
 
+
+var logoutButton = document.getElementById('logoutButton');
 logoutButton.addEventListener('click', () => {
     logoutAuth();
 });
 
 
 function signInAuth(email, password) {
-    return firebase.auth().signInWithEmailAndPassword(email, password).catch( (error) => {
+    return firebase.auth().signInWithEmailAndPassword(email, password)
+    .then( (result) => {
+        displayName.innerHTML = 'Bem vindo ' + emailInput.value;
+    })
+    .catch( (error) => {
         console.log(error.code);
-        console.log(error.message);
+        console.log(error.message); 
     });
 }
 
@@ -39,7 +44,11 @@ function createAuth(email, password) {
 }
 
 function logoutAuth() {
-    return firebase.auth().signOut().catch( (error) => {
+    return firebase.auth().signOut()
+    .then( (result) => {
+        displayName.innerHTML = 'Você não está autenticado!';
+    })  
+    .catch( (error) => {
         console.log(error.code);
         console.log(error.message);
     });
